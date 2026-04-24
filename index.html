@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNTS | Integrated Library Management System</title>
+    <style>
+        :root {
+            --primary-blue: #003366; /* Adjust based on school colors */
+            --accent-gold: #FFD700;
+            --light-gray: #f4f4f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--light-gray);
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        /* Hero/Search Section */
+        .search-container {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        input[type="text"] {
+            width: 60%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0055a4;
+        }
+
+        /* Main Dashboard Content */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent-gold);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>TNTS Library</h1>
+            <small>Tagum National Trade School</small>
+        </div>
+        <nav>
+            <a href="page2.html">Dashboard</a> 
+            <a href="page3.html">Books</a>
+            <a href="page4.html">Borrowers</a>
+            <a href="page5.html">Reports</a>
+            <a href="login.html">Log-in</a>
+        </nav>
+    </header>
+
+    <div class="search-container">
+        <h2>Find a Resource</h2>
+        <input type="text" placeholder="Search by Title, Author, or ISBN...">
+        <button>Search Catalog</button>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h3>Library Overview</h3>
+            <p><strong>Total Books:</strong> 1,240</p>
+            <p><strong>Borrowed Today:</strong> 45</p>
+            <p><strong>Overdue Items:</strong> 12</p>
+        </div>
+
+        <div class="card" style="grid-column: span 2;">
+            <h3>Recent Book Loans</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Borrower</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Technical Drafting Vol. 1</td>
+                        <td>Juan Dela Cruz</td>
+                        <td>Apr 12, 2026</td>
+                        <td style="color: green;">Active</td>
+                    </tr>
+                    <tr>
+                        <td>Automotive Mechanics</td>
+                        <td>Maria Clara</td>
+                        <td>Apr 05, 2026</td>
+                        <td style="color: red;">Overdue</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Tagum National Trade School - ILMS Project
+    </footer>
+
+</body>
+</html>

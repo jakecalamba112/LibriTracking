@@ -1,0 +1,47 @@
+DROP DATABASE IF EXISTS tnts_library_db;
+CREATE DATABASE tnts_library_db;
+USE tnts_library_db;
+
+CREATE TABLE tb_Credentials (
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL,
+    Role VARCHAR(50) DEFAULT 'Librarian'
+);
+
+CREATE TABLE books (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    isbn VARCHAR(20) NOT NULL UNIQUE, -- The UNIQUE constraint prevents duplicates
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    publisher VARCHAR(100),
+    pub_year INT,
+    genre VARCHAR(50),
+    stocks INT DEFAULT 1,
+    location VARCHAR(50),
+    format VARCHAR(50),
+    status VARCHAR(50) DEFAULT 'Available'
+);
+
+CREATE TABLE borrowers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    book_borrowed VARCHAR(255),
+    book_id INT,
+    date_borrowed DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50) DEFAULT 'Borrowed',
+    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE SET NULL
+);
+
+CREATE TABLE reports (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    report_title VARCHAR(255),
+    total_transactions INT,
+    report_summary TEXT,
+    generated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO tb_Credentials (Email, Password, Role) 
+VALUES ('admin', 'admin', 'Admin');
+
