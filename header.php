@@ -54,8 +54,8 @@ if (!isset($_SESSION["loggedin"]) && basename($_SERVER['PHP_SELF']) != 'login.ph
         .btn-home {
             background-color: var(--accent-gold) !important;
             color: var(--primary-blue) !important;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }      
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
 
 
         .container,
@@ -274,40 +274,53 @@ if (!isset($_SESSION["loggedin"]) && basename($_SERVER['PHP_SELF']) != 'login.ph
             padding: 12px;
             border-bottom: 1px solid #eee;
             font-size: 0.95rem;
-            }
+        }
 
-        .stats-grid{
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             margin-bottom: 30px;
-            }
+        }
+
         .stat-card {
             padding: 20px;
             border-radius: 10px;
             color: white;
             text-align: center;
-            }
-        .bg-blue { background: #003366; }
-        .bg-gold { background: #FFD700; color: #003366; }
-        .bg-green { background: #28a745; }
+        }
+
+        .bg-blue {
+            background: #003366;
+        }
+
+        .bg-gold {
+            background: #FFD700;
+            color: #003366;
+        }
+
+        .bg-green {
+            background: #28a745;
+        }
     </style>
 </head>
 
 <body>
     <header>
-    <div>
-        <h1 style="margin:0;">TNTS Library</h1>
-    </div>
-    <nav class="nav-links">
-        <a href="index.php" class="<?php echo ($current_page == 'index.php') ? 'btn-home' : ''; ?>">Dashboard</a>
-        
-        <a href="books.php" class="<?php echo ($current_page == 'books.php' || $current_page == 'add_book.php' || $current_page == 'edit_book.php') ? 'btn-home' : ''; ?>">Books</a>
-        
-        <a href="borrowers.php" class="<?php echo ($current_page == 'borrowers.php' || $current_page == 'borrow_book.php') ? 'btn-home' : ''; ?>">Borrowers</a>
-        
-        <a href="reports.php" class="<?php echo ($current_page == 'reports.php') ? 'btn-home' : ''; ?>">Reports</a>
-        
-        <a href="logout.php" style="color: #ff6b6b !important;">Logout</a>
-    </nav>
-</header>
+        <div>
+            <h1 style="margin:0;">TNTS Library</h1>
+        </div>
+        <nav class="nav-links">
+            <a href="index.php" class="<?php echo ($current_page == 'index.php') ? 'btn-home' : ''; ?>">Dashboard</a>
+
+            <a href="books.php" class="<?php echo ($current_page == 'books.php' || $current_page == 'add_book.php' || $current_page == 'edit_book.php') ? 'btn-home' : ''; ?>">Books</a>
+
+            <a href="borrowers.php" class="<?php echo ($current_page == 'borrowers.php' || $current_page == 'borrow_book.php') ? 'btn-home' : ''; ?>">Borrowers</a>
+
+            <a href="add_student.php" class="<?php echo ($current_page == 'add_student.php') ? 'btn-home' : ''; ?>">Registration</a>
+
+            <a href="reports.php" class="<?php echo ($current_page == 'reports.php') ? 'btn-home' : ''; ?>">Reports</a>
+
+            <a href="logout.php" style="color: #ff6b6b !important;">Logout</a>
+        </nav>
+    </header>
