@@ -5,7 +5,7 @@ include_once "header.php";
 // Fetch borrower data along with their count of currently borrowed books
 $borrower_sql = "
     SELECT 
-        br.student_id, 
+        br.lrn, 
         br.full_name, 
         br.grade_section, 
         br.status,
@@ -66,7 +66,7 @@ $borrower_result = $mysqli->query($borrower_sql);
         <table>
             <thead>
                 <tr>
-                    <th>Student ID</th>
+                    <th>LRN</th>
                     <th>Full Name</th>
                     <th>Grade/Section</th>
                     <th>Books Borrowed</th>
@@ -77,7 +77,7 @@ $borrower_result = $mysqli->query($borrower_sql);
                 <?php if ($borrower_result->num_rows > 0): ?>
                     <?php while ($row = $borrower_result->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['student_id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['lrn']); ?></td>
                             <td><?php echo htmlspecialchars($row['full_name']); ?></td>
                             <td><?php echo htmlspecialchars($row['grade_section']); ?></td>
                             <td><?php echo $row['books_borrowed']; ?></td>

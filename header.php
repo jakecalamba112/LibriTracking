@@ -13,7 +13,7 @@ if (!isset($_SESSION["loggedin"]) && basename($_SERVER['PHP_SELF']) != 'login.ph
 
 <head>
     <meta charset="UTF-8">
-    <title>TNTS Library</title>
+    <title>Libri Tracking</title>
     <style>
         :root {
             --primary-blue: #003366;
@@ -308,7 +308,7 @@ if (!isset($_SESSION["loggedin"]) && basename($_SERVER['PHP_SELF']) != 'login.ph
 <body>
     <header>
         <div>
-            <h1 style="margin:0;">TNTS Library</h1>
+            <h1 style="margin:0;">Libri Tracking</h1>
         </div>
         <nav class="nav-links">
             <a href="index.php" class="<?php echo ($current_page == 'index.php') ? 'btn-home' : ''; ?>">Dashboard</a>
