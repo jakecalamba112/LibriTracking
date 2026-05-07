@@ -1,326 +1,356 @@
-<?php
+    <?php
 
-$current_page = basename($_SERVER['PHP_SELF']);
+    $current_page = basename($_SERVER['PHP_SELF']);
 
-if (session_status() === PHP_SESSION_NONE) session_start();
-if (!isset($_SESSION["loggedin"]) && basename($_SERVER['PHP_SELF']) != 'login.php') {
-    header("location: login.php");
-    exit;
-}
-?>
-<!DOCTYPE html>
-<html lang="en">
+    if (session_status() === PHP_SESSION_NONE) session_start();
+    if (!isset($_SESSION["loggedin"]) && basename($_SERVER['PHP_SELF']) != 'login.php') {
+        header("location: login.php");
+        exit;
+    }
+    ?>
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Libri Tracking</title>
-    <style>
-        :root {
-            --primary-blue: #003366;
-            --accent-gold: #FFD700;
-            --light-gray: #f4f4f9;
-        }
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Libri Tracking</title>
+        <style>
+            :root {
+                --primary-blue: #003366;
+                --accent-gold: #FFD700;
+                --light-gray: #f4f4f9;
+            }
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            background-color: var(--light-gray);
-        }
+            body {
+                font-family: 'Segoe UI', sans-serif;
+                margin: 0;
+                background-color: var(--light-gray);
+            }
 
-        header {
-            background-color: var(--primary-blue);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+            header {
+                background-color: var(--primary-blue);
+                color: white;
+                padding: 1rem 2rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
 
-        .nav-links a:hover:not(.btn-home) {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
+            .nav-links a:hover:not(.btn-home) {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 10px;
-            font-weight: bold;
-            padding: 10px 18px;
-            border-radius: 5px;
-            transition: 0.2s;
-            display: inline-block;
-        }
+            .nav-links a {
+                color: white;
+                text-decoration: none;
+                margin-left: 10px;
+                font-weight: bold;
+                padding: 10px 18px;
+                border-radius: 5px;
+                transition: 0.2s;
+                display: inline-block;
+            }
 
-        .btn-home {
-            background-color: var(--accent-gold) !important;
-            color: var(--primary-blue) !important;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-
-        .container,
-        .content {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: var(--primary-blue);
-            border-bottom: 2px solid var(--primary-blue);
-            padding-bottom: 10px;
-        }
+            .btn-home {
+                background-color: var(--accent-gold) !important;
+                color: var(--primary-blue) !important;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            }
 
 
-        .book-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
-        }
+            .container,
+            .content {
+                max-width: 1100px;
+                margin: 30px auto;
+                padding: 20px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
 
-        .book-item {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        .status-available {
-            color: green;
-            font-weight: bold;
-        }
-
-        .status-borrowed {
-            color: orange;
-            font-weight: bold;
-        }
+            h2 {
+                color: var(--primary-blue);
+                border-bottom: 2px solid var(--primary-blue);
+                padding-bottom: 10px;
+            }
 
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+            .book-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 25px;
+                margin-top: 20px;
+            }
 
-        th {
-            background-color: #f8f9fa;
-            padding: 12px;
-            text-align: left;
-            border-bottom: 2px solid #ddd;
-        }
+            .book-item {
+                border: 1px solid #ddd;
+                padding: 15px;
+                border-radius: 5px;
+                text-align: center;
+            }
 
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-        }
+            .status-available {
+                color: green;
+                font-weight: bold;
+            }
 
-        .badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
-
-        .active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .blocked {
-            background: #f8d7da;
-            color: #721c24;
-        }
+            .status-borrowed {
+                color: orange;
+                font-weight: bold;
+            }
 
 
-        .text-center {
-            text-align: center;
-        }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
 
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-top: 20px;
-        }
+            th {
+                background-color: #f8f9fa;
+                padding: 12px;
+                text-align: left;
+                border-bottom: 2px solid #ddd;
+            }
 
-        th {
-            background-color: #f8f9fa;
-            padding: 15px;
-            text-align: left;
-            border-bottom: 2px solid #ddd;
-        }
+            td {
+                padding: 12px;
+                border-bottom: 1px solid #eee;
+            }
 
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            font-size: 0.95rem;
-        }
+            .badge {
+                padding: 5px 10px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: bold;
+            }
 
-        /* This adds space between rows */
-        tbody tr:hover {
-            background-color: #f9f9f9;
-        }
+            .active {
+                background: #d4edda;
+                color: #155724;
+            }
 
-        :root {
-            --primary-blue: #003366;
-            --accent-gold: #FFD700;
-            --light-gray: #f4f4f9;
-        }
+            .blocked {
+                background: #f8d7da;
+                color: #721c24;
+            }
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            background-color: var(--light-gray);
-        }
 
-        /* Header & Nav */
-        header {
-            background-color: var(--primary-blue);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+            .text-center {
+                text-align: center;
+            }
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 15px;
-            font-weight: bold;
-            padding: 8px 15px;
-            border-radius: 4px;
-        }
+            table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                margin-top: 20px;
+            }
 
-        .btn-home {
-            background-color: var(--accent-gold);
-            color: var(--primary-blue) !important;
-        }
+            th {
+                background-color: #f8f9fa;
+                padding: 15px;
+                text-align: left;
+                border-bottom: 2px solid #ddd;
+            }
 
-        /* Search Container - Centered & Visible */
-        .search-container {
-            background: white;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 20px;
-            border-radius: 8px;
-        }
+            td {
+                padding: 15px;
+                border-bottom: 1px solid #eee;
+                font-size: 0.95rem;
+            }
 
-        .search-container h2 {
-            border: none;
-            margin-bottom: 20px;
-            color: var(--primary-blue);
-        }
+            /* This adds space between rows */
+            tbody tr:hover {
+                background-color: #f9f9f9;
+            }
 
-        .search-box {
-            width: 60%;
-            padding: 15px;
-            font-size: 1.1rem;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
+            :root {
+                --primary-blue: #003366;
+                --accent-gold: #FFD700;
+                --light-gray: #f4f4f9;
+            }
 
-        .btn-search {
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+            body {
+                font-family: 'Segoe UI', sans-serif;
+                margin: 0;
+                background-color: var(--light-gray);
+            }
 
-        .btn-search:hover {
-            background-color: #0055a4;
-        }
+            /* Header & Nav */
+            header {
+                background-color: var(--primary-blue);
+                color: white;
+                padding: 1rem 2rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
 
-        /* Cards & Layout */
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 20px;
-        }
+            .nav-links a {
+                color: white;
+                text-decoration: none;
+                margin-left: 15px;
+                font-weight: bold;
+                padding: 8px 15px;
+                border-radius: 4px;
+            }
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
+            .btn-home {
+                background-color: var(--accent-gold);
+                color: var(--primary-blue) !important;
+            }
 
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
+            /* Search Container - Centered & Visible */
+            .search-container {
+                background: white;
+                padding: 40px;
+                text-align: center;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin: 20px;
+                border-radius: 8px;
+            }
 
-        th {
-            background-color: #f8f9fa;
-            padding: 12px;
-            text-align: left;
-            border-bottom: 2px solid #ddd;
-        }
+            .search-container h2 {
+                border: none;
+                margin-bottom: 20px;
+                color: var(--primary-blue);
+            }
 
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-            font-size: 0.95rem;
-        }
+            .search-box {
+                width: 60%;
+                padding: 15px;
+                font-size: 1.1rem;
+                border: 2px solid #ddd;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+            .btn-search {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+                background-color: var(--primary-blue);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
 
-        .stat-card {
-            padding: 20px;
-            border-radius: 10px;
-            color: white;
-            text-align: center;
-        }
+            .btn-search:hover {
+                background-color: #0055a4;
+            }
 
-        .bg-blue {
-            background: #003366;
-        }
+            /* Cards & Layout */
+            .container {
+                max-width: 1100px;
+                margin: 30px auto;
+                padding: 20px;
+            }
 
-        .bg-gold {
-            background: #FFD700;
-            color: #003366;
-        }
+            .card {
+                background: white;
+                padding: 25px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
 
-        .bg-green {
-            background: #28a745;
-        }
-    </style>
-</head>
+            /* Tables */
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
 
-<body>
-    <header>
-        <div>
-            <h1 style="margin:0;">Libri Tracking</h1>
-        </div>
-        <nav class="nav-links">
-            <a href="index.php" class="<?php echo ($current_page == 'index.php') ? 'btn-home' : ''; ?>">Dashboard</a>
+            th {
+                background-color: #f8f9fa;
+                padding: 12px;
+                text-align: left;
+                border-bottom: 2px solid #ddd;
+            }
 
-            <a href="books.php" class="<?php echo ($current_page == 'books.php' || $current_page == 'add_book.php' || $current_page == 'edit_book.php') ? 'btn-home' : ''; ?>">Books</a>
+            td {
+                padding: 12px;
+                border-bottom: 1px solid #eee;
+                font-size: 0.95rem;
+            }
 
-            <a href="borrowers.php" class="<?php echo ($current_page == 'borrowers.php' || $current_page == 'borrow_book.php') ? 'btn-home' : ''; ?>">Borrowers</a>
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                margin-bottom: 30px;
+            }
 
-            <a href="add_student.php" class="<?php echo ($current_page == 'add_student.php') ? 'btn-home' : ''; ?>">Registration</a>
+            .stat-card {
+                padding: 20px;
+                border-radius: 10px;
+                color: white;
+                text-align: center;
+            }
 
-            <a href="reports.php" class="<?php echo ($current_page == 'reports.php') ? 'btn-home' : ''; ?>">Reports</a>
+            .bg-blue {
+                background: #003366;
+            }
 
-            <a href="logout.php" style="color: #ff6b6b !important;">Logout</a>
-        </nav>
-    </header>
+            .bg-gold {
+                background: #FFD700;
+                color: #003366;
+            }
+
+            .bg-green {
+                background: #28a745;
+            }
+
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    text-align: center;
+                    padding: 1rem;
+                }
+
+                .nav-links {
+                    margin-top: 15px;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+
+                .nav-links a {
+                    padding: 6px 10px;
+                    font-size: 0.8rem;
+                }
+            }
+
+
+            @media (max-width: 480px) {
+                .container {
+                    padding: 0 10px;
+                }
+
+                h1 {
+                    font-size: 1.5rem;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <div>
+                <h1 style="margin:0;">Libri Tracking</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="index.php" class="<?php echo ($current_page == 'index.php') ? 'btn-home' : ''; ?>">Dashboard</a>
+
+                <a href="books.php" class="<?php echo ($current_page == 'books.php' || $current_page == 'add_book.php' || $current_page == 'edit_book.php') ? 'btn-home' : ''; ?>">Books</a>
+
+                <a href="borrowers.php" class="<?php echo ($current_page == 'borrowers.php' || $current_page == 'borrow_book.php') ? 'btn-home' : ''; ?>">Borrowers</a>
+
+                <a href="add_student.php" class="<?php echo ($current_page == 'add_student.php') ? 'btn-home' : ''; ?>">Registration</a>
+
+                <a href="reports.php" class="<?php echo ($current_page == 'reports.php') ? 'btn-home' : ''; ?>">Reports</a>
+
+                <a href="logout.php" style="color: #ff6b6b !important;">Logout</a>
+            </nav>
+        </header>
